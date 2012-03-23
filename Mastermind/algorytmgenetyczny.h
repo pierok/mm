@@ -21,7 +21,7 @@ public:
     void update()
     {
        // std::cout<<"Update "<<std::endl;
-        ocenaOsobnikow();
+        //ocenaOsobnikow();
         selekcja();
         krzyzowanie();
         mutacja();

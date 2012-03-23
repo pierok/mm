@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+ #include <QMessageBox>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -29,27 +30,48 @@ void MainWindow::MainClockTick()
 {
     if(start==true)
     {
-        algorytm->update();
+
         osobnik=algorytm->osobnik();
         for(int i=0; i<8; ++i)
         {
             plansza->frame->memory[i]->setColor(osobnik->genom[i]);
         }
 
-        std::cout<<"Osobnik :";
+        /*std::cout<<"Osobnik :";
         for(int i=0; i<8; ++i)
         {
             std::cout<< plansza->frame->memory[i]->getColor()<<" ";
-        }std::cout<<std::endl;
-
+        }std::cout<<std::endl;*/
 
         on_acceptButton_clicked();
 
+        oceneOsobnikow(osobnik);
 
+        algorytm->update();
 
     }
     plansza->update();
 }
+
+void MainWindow::oceneOsobnikow(Osobnik *osobnik)
+{
+    int count1=0;
+    int count2=0;
+    for(int i=0; i<8; ++i)
+    {
+        if(plansza->result[i]==1)
+        {
+            ++count1;
+        }else if(plansza->result[i]==2)
+        {
+            ++count2;
+        }
+    }
+    osobnik->przystosowanie=count1-count2-8;
+    std::cout<<"przystosowanie: "<<osobnik->przystosowanie<<" 1: "<<count1<<std::endl;
+}
+
+
 
 MainWindow::~MainWindow()
 {
@@ -77,12 +99,23 @@ void MainWindow::on_acceptButton_clicked()
         if(plansza->checkPatern())
         {
             start=false;
+            QString code;
             std::cout<<"Kod: ";
             for(int i=0; i<8; ++i)
             {
                std::cout<<plansza->result[i]<<" ";
+
+               code.setNum(plansza->frame->memory[i]->getColor());
+
             }
             std::cout<<std::endl;
+            QMessageBox msgBox;
+            msgBox.setText(code);
+           //  msgBox.setBaseSize(300,300);
+            msgBox.setFixedSize(300,300);
+
+            msgBox.exec();
+
         }
 
         for(int i=0; i<8; ++i)
@@ -90,7 +123,7 @@ void MainWindow::on_acceptButton_clicked()
          //   std::cout<<plansza->result[i]<<" ";
         }
 
-        std::cout<<std::endl;
+       // std::cout<<std::endl;
 
 
         plansza->frame->clearMemory();
