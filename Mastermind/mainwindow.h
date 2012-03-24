@@ -17,13 +17,14 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    void oceneOsobnikow(Osobnik *osobnik);
+    void oceneOsobnikow(Osobnik *osobnik, int os);
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
     QTimer maintimer;
     Plansza *plansza;
+    Populacja* populacja;
     AlgorytmGenetyczny *algorytm;
     Osobnik* osobnik;
     bool start;

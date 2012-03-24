@@ -16,7 +16,7 @@ public:
     void ocenaOsobnikow();
     void selekcja();
 
-    Osobnik* osobnik();
+    Osobnik* osobnik(int os);
 
     void update()
     {

@@ -8,15 +8,11 @@ AlgorytmGenetyczny::AlgorytmGenetyczny(Populacja *pop)
     pokolenie=0;
 }
 
-
-Osobnik* AlgorytmGenetyczny::osobnik()
+Osobnik* AlgorytmGenetyczny::osobnik(int os)
 {
-    int o=qrand()%populacja->getRozmiar();
-
     //std::cout<<"osobnik: "<<o<<std::endl;
-    return populacja->populacja->at(o);
+    return populacja->populacja->at(os);
 }
-
 
 void AlgorytmGenetyczny::mutacja()
 {
@@ -102,7 +98,6 @@ bool osobnikSelect(Osobnik* o1, Osobnik* o2)
 
 void AlgorytmGenetyczny::selekcja()
 {
-
   //  std::cout<<"Selekcja "<<std::endl;
     qSort(populacja->populacja->begin(),populacja->populacja->end(),osobnikSelect);
 }

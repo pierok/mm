@@ -1,6 +1,5 @@
 #include "populacja.h"
 
-
 Populacja::Populacja(int r)
 {
     rozmiar=r;

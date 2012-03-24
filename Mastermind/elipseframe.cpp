@@ -8,7 +8,6 @@ ElipseFrame::ElipseFrame(int a, int b, int i):x1(a),x2(b),index(i)
     nextElipse=NULL;
 }
 
-
 void ElipseFrame::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setPen(QPen(Qt::black));
@@ -56,7 +55,6 @@ void ElipseFrame::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
         painter->drawEllipse((25-15)+index*50,(25-15),30,30);
     }
 }
-
 
 void ElipseFrame::request(double x ,double y)
 {

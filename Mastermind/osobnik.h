@@ -11,7 +11,6 @@ public:
     int genom[8];
     int przystosowanie;
 
-
 };
 
 #endif // OSOBNIK_H

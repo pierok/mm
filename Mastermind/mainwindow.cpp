@@ -1,9 +1,8 @@
 #include <iostream>
 #include <cmath>
- #include <QMessageBox>
+#include <QMessageBox>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,11 +17,12 @@ MainWindow::MainWindow(QWidget *parent) :
     plansza->setItemIndexMethod(QGraphicsScene::NoIndex);
     ui->plansza->setScene(plansza);
     ui->plansza->show();
+
     maintimer.start(30);
     start=false;
 
-    Populacja* p= new Populacja(1000);
-    algorytm= new AlgorytmGenetyczny(p);
+    populacja= new Populacja(1000);
+    algorytm= new AlgorytmGenetyczny(populacja);
 
 }
 
@@ -30,8 +30,10 @@ void MainWindow::MainClockTick()
 {
     if(start==true)
     {
+        int os=qrand()%populacja->getRozmiar();
+        std::cout<<"Osobnik: "<<os<<std::endl;
+        osobnik=algorytm->osobnik(os);
 
-        osobnik=algorytm->osobnik();
         for(int i=0; i<8; ++i)
         {
             plansza->frame->memory[i]->setColor(osobnik->genom[i]);
@@ -45,15 +47,14 @@ void MainWindow::MainClockTick()
 
         on_acceptButton_clicked();
 
-        oceneOsobnikow(osobnik);
+        oceneOsobnikow(osobnik,os);
 
         algorytm->update();
-
     }
     plansza->update();
 }
 
-void MainWindow::oceneOsobnikow(Osobnik *osobnik)
+void MainWindow::oceneOsobnikow(Osobnik *osobnik, int os)
 {
     int count1=0;
     int count2=0;
@@ -68,76 +69,58 @@ void MainWindow::oceneOsobnikow(Osobnik *osobnik)
         }
     }
     osobnik->przystosowanie=count1-count2-8;
-    std::cout<<"przystosowanie: "<<osobnik->przystosowanie<<" 1: "<<count1<<std::endl;
+    std::cout<<"przystosowanie: "<<osobnik->przystosowanie<<" 1: "<<count1<<" 2: "<<count2<<std::endl;
 }
-
-
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-
 void MainWindow::on_acceptButton_clicked()
 {
-   // if(plansza->frame->scenePos().y()<400)
-   // {
-        plansza->frame->setPos(plansza->frame->scenePos().x(),plansza->frame->scenePos().y()+55);
+    plansza->frame->setPos(plansza->frame->scenePos().x(),plansza->frame->scenePos().y()+55);
 
+    for(int i=0; i<8; ++i)
+    {
+        StaticElipse *tmp=new StaticElipse(0,0,i);
+        tmp->setColor(plansza->frame->memory[i]->getColor());
+
+        plansza->addItem(tmp);
+        tmp->setPos(plansza->frame->memory[i]->scenePos().x(),plansza->frame->memory[i]->scenePos().y());
+
+        plansza->frame->memory[i]->setPos(plansza->frame->memory[i]->scenePos().x(),plansza->frame->memory[i]->scenePos().y()+55);
+    }
+
+    if(plansza->checkPatern())
+    {
+        start=false;
+        QString code;
+        std::cout<<"Kod: ";
         for(int i=0; i<8; ++i)
         {
-            StaticElipse *tmp=new StaticElipse(0,0,i);
-            tmp->setColor(plansza->frame->memory[i]->getColor());
-
-            plansza->addItem(tmp);
-            tmp->setPos(plansza->frame->memory[i]->scenePos().x(),plansza->frame->memory[i]->scenePos().y());
-
-            plansza->frame->memory[i]->setPos(plansza->frame->memory[i]->scenePos().x(),plansza->frame->memory[i]->scenePos().y()+55);
+            std::cout<<plansza->result[i]<<" ";
+            code.setNum(plansza->frame->memory[i]->getColor());
         }
+        std::cout<<std::endl;
+        QMessageBox msgBox;
+        msgBox.setText(code);
+        msgBox.setFixedSize(300,300);
+        msgBox.exec();
+    }
 
-        if(plansza->checkPatern())
-        {
-            start=false;
-            QString code;
-            std::cout<<"Kod: ";
-            for(int i=0; i<8; ++i)
-            {
-               std::cout<<plansza->result[i]<<" ";
+    for(int i=0; i<8; ++i)
+    {
+        // std::cout<<plansza->result[i]<<" ";
+    }
+    plansza->frame->clearMemory();
+    plansza->frame->level++;
 
-               code.setNum(plansza->frame->memory[i]->getColor());
-
-            }
-            std::cout<<std::endl;
-            QMessageBox msgBox;
-            msgBox.setText(code);
-           //  msgBox.setBaseSize(300,300);
-            msgBox.setFixedSize(300,300);
-
-            msgBox.exec();
-
-        }
-
-        for(int i=0; i<8; ++i)
-        {
-         //   std::cout<<plansza->result[i]<<" ";
-        }
-
-       // std::cout<<std::endl;
-
-
-        plansza->frame->clearMemory();
-        plansza->frame->level++;
-
-        plansza->update();
-
-    //}
-
+    plansza->update();
 }
 
 void MainWindow::on_newGameButton_clicked()
 {
-
     start=true;
     plansza->frame->setPos(0.,0.);
     for(int i=0; i<8; ++i)

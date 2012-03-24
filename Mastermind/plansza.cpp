@@ -13,7 +13,6 @@ Plansza::Plansza()
     addItem(frame);
 }
 
-
 void Plansza::clearP()
 {
 
@@ -39,7 +38,6 @@ void Plansza::update()
         item->update();
     }
 }
-
 
 bool Plansza::checkPatern()
 {
@@ -95,7 +93,6 @@ bool Plansza::checkPatern()
     return true;
 
 }
-
 
 void Plansza::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {

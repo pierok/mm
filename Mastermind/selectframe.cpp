@@ -26,9 +26,7 @@ void SelectFrame::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
 {
     //painter->setBrush(Qt::gray);
     painter->setPen(QPen(Qt::black,2));
-
     painter->drawRect(0, 0, 400, 50);
-
     painter->drawLine(50,0,50,50);
     painter->drawLine(100,0,100,50);
     painter->drawLine(150,0,150,50);
@@ -36,8 +34,6 @@ void SelectFrame::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
     painter->drawLine(250,0,250,50);
     painter->drawLine(300,0,300,50);
     painter->drawLine(350,0,350,50);
-
-
 }
 
 void SelectFrame::clearMemory()
@@ -48,12 +44,10 @@ void SelectFrame::clearMemory()
     }
 }
 
-
 void SelectFrame::frameClicked(double x, double y)
 {
     memory[0]->request(x,y-level*55);
 }
-
 
 QRectF SelectFrame::boundingRect() const
 {
@@ -64,4 +58,3 @@ void SelectFrame::setBoundingRect(QRectF rect)
 {
     m_boundingRect=rect;
 }
-

@@ -35,7 +35,6 @@ protected:
 
     QRectF m_boundingRect;
 
-
 };
 
 #endif // SELECTFRAME_H
