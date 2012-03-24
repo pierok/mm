@@ -6,6 +6,7 @@
 #include "plansza.h"
 #include "populacja.h"
 #include "algorytmgenetyczny.h"
+#include "memento.h"
 
 namespace Ui {
     class MainWindow;
@@ -28,6 +29,7 @@ private:
     AlgorytmGenetyczny *algorytm;
     Osobnik* osobnik;
     bool start;
+    QVector<Memento* >previousResults;
 
 private slots:
     void MainClockTick();

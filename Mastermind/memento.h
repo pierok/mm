@@ -15,6 +15,16 @@ public:
         result[i]=w;
     }
 
+    inline int getPresented(int i)
+    {
+        return presented[i];
+    }
+
+    inline int getResult(int i)
+    {
+        return result[i];
+    }
+
     inline void setBlack(int i)
     {
         black=i;

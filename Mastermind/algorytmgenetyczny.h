@@ -30,9 +30,11 @@ public:
         nowaPopulcacja();
     }
 
+    int pokolenie;
+
 private:
     Populacja* populacja;
-    int pokolenie;
+
 };
 
 #endif // ALGORYTMGENETYCZNY_H

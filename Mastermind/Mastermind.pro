@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     elipseframe.cpp \
     algorytmgenetyczny.cpp \
     osobnik.cpp \
-    populacja.cpp
+    populacja.cpp \
+    memento.cpp
 
 HEADERS  += mainwindow.h \
     plansza.h \
@@ -25,9 +26,12 @@ HEADERS  += mainwindow.h \
     elipseframe.h \
     algorytmgenetyczny.h \
     osobnik.h \
-    populacja.h
+    populacja.h \
+    memento.h
 
 FORMS    += mainwindow.ui
+
+
 
 
 
