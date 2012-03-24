@@ -24,6 +24,109 @@ MainWindow::MainWindow(QWidget *parent) :
     populacja= new Populacja(400);
     algorytm= new AlgorytmGenetyczny(populacja);
 
+    std::cout<<"test"<<std::endl;
+
+    int tmp[8];
+    int result[8];
+
+    int patern[8];
+    patern[0]=1;
+    patern[1]=5;
+    patern[2]=5;
+    patern[3]=5;
+    patern[4]=2;
+    patern[5]=7;
+    patern[6]=2;
+    patern[7]=8;
+
+    int osobnik[8];
+    osobnik[0]=7;
+    osobnik[1]=3;
+    osobnik[2]=7;
+    osobnik[3]=9;
+    osobnik[4]=5;
+    osobnik[5]=8;
+    osobnik[6]=5;
+    osobnik[7]=6;
+
+    for(int i=0; i<8; ++i)
+    {
+        result[i]=0;
+        tmp[i]=0;
+    }
+
+    for(int i=0; i<8; ++i)
+    {
+
+        if(patern[i]==osobnik[i])
+        {
+            result[i]=1;
+            tmp[i]=1;
+        }
+    }
+
+    for(int i=0; i<8; ++i)
+    {
+        bool pos=true;
+        int count=0;
+        for(int j=0; j<8; ++j)
+        {
+            if(patern[j]==osobnik[i])
+            {
+                if(tmp[j]==1)
+                    pos=false;
+                tmp[j]=1;
+                ++count;
+            }
+        }
+
+        if(pos&&osobnik[i]>0&&count>0)
+        {
+            result[i]=2;
+           // tmp[i]=1;
+        }
+
+    }
+
+    int black=0;
+    int white=0;
+    for(int i=0; i<8; ++i)
+    {
+        if(result[i]==1)
+        {
+            ++black;
+        }else if(result[i]==2)
+        {
+            ++white;
+        }
+    }
+
+    std::cout<<std::endl;
+
+    for(int i=0; i<8; ++i)
+    {
+        std::cout<<patern[i]<<" ";
+    }
+    std::cout<<std::endl;
+
+    for(int i=0; i<8; ++i)
+    {
+        std::cout<<osobnik[i]<<" ";
+    }
+    std::cout<<std::endl;
+
+    for(int i=0; i<8; ++i)
+    {
+        std::cout<<result[i]<<" ";
+    }
+    std::cout<<std::endl;
+
+    std::cout<<"b "<<black<<" w "<<white<<std::endl;
+
+    std::cout<<"end test"<<std::endl;
+
+   // exit(0);
+
 }
 
 void MainWindow::MainClockTick()
@@ -51,7 +154,7 @@ void MainWindow::MainClockTick()
 
         algorytm->update();
 
-        if(algorytm->pokolenie>6)
+        if(algorytm->pokolenie>=1)
         {
             start=false;
             algorytm->pokolenie=0;
@@ -85,7 +188,6 @@ void MainWindow::oceneOsobnikow(Osobnik *osobnik, int os)
         m->setPresented(i,osobnik->genom[i]);
     }
 
-
     osobnik->przystosowanie=count1-count2-8;
 
     previousResults.push_back(m);
@@ -97,8 +199,6 @@ void MainWindow::oceneOsobnikow(Osobnik *osobnik, int os)
     {
         foreach(Osobnik* o, *populacja->populacja)
         {
-
-
             for(int i=0; i<8; ++i)
             {
                 result[i]=0;
@@ -107,7 +207,6 @@ void MainWindow::oceneOsobnikow(Osobnik *osobnik, int os)
 
             for(int i=0; i<8; ++i)
             {
-
                 if(m->getPresented(i)==o->genom[i])
                 {
                     result[i]=1;
@@ -118,6 +217,7 @@ void MainWindow::oceneOsobnikow(Osobnik *osobnik, int os)
             for(int i=0; i<8; ++i)
             {
                 bool pos=true;
+                int count=0;
                 for(int j=0; j<8; ++j)
                 {
                     if(m->getPresented(j)==o->genom[i])
@@ -125,11 +225,11 @@ void MainWindow::oceneOsobnikow(Osobnik *osobnik, int os)
                         if(tmp[j]==1)
                             pos=false;
                         tmp[j]=1;
-
+                        ++count;
                     }
                 }
 
-                if(pos&&o->genom[i]>0)
+                if(pos&&o->genom[i]>0&&count>0)
                 {
                     result[i]=2;
                    // tmp[i]=1;
@@ -149,15 +249,27 @@ void MainWindow::oceneOsobnikow(Osobnik *osobnik, int os)
                     ++white;
                 }
             }
-           // std::cout<<k<<" "<<"M b: "<<m->getBlack()<<" b: "<<black<<" M w: "<<m->getWhite()<<" w :"<<white<<std::endl;
+            std::cout<<"M b: "<<m->getBlack()<<" M w: "<<m->getWhite()<<"  b: "<<black<<" w: "<<white<<std::endl;
+
+            int tmpb=std::abs(m->getBlack()-black);
+
+            std::cout<<"Odleglosc: "<<tmpb<<std::endl;
+
+            for(int i=0; i<8; ++i)
+            {
+                std::cout<<m->getPresented(i)<<" ";
+            }
+            std::cout<<"\nosobnik: "<<std::endl;
+
+            for(int i=0; i<8; ++i)
+            {
+                std::cout<<o->genom[i]<<" ";
+            }
+            std::cout<<std::endl;
 
         }
-
     }
     std::cout<<"ok "<<previousResults.size()<<" "<<populacja->getRozmiar()<<std::endl;
-
-
-  //  std::cout<<"przystosowanie: "<<osobnik->przystosowanie<<" 1: "<<count1<<" 2: "<<count2<<std::endl;
 }
 
 

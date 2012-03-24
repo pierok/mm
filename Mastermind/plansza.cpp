@@ -63,6 +63,7 @@ bool Plansza::checkPatern()
     for(int i=0; i<8; ++i)
     {
         bool pos=true;
+        int count=0;
         for(int j=0; j<8; ++j)
         {
             if(patern[j]==frame->memory[i]->getColor())
@@ -70,16 +71,15 @@ bool Plansza::checkPatern()
                 if(tmp[j]==1)
                     pos=false;
                 tmp[j]=1;
-
+                ++count;
             }
         }
 
-        if(pos&&frame->memory[i]->getColor()>0)
+        if(pos&&frame->memory[i]->getColor()>0&&count>0)
         {
             result[i]=2;
            // tmp[i]=1;
         }
-
     }
 
     for(int i=0; i<8; ++i)
