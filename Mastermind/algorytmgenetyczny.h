@@ -13,7 +13,6 @@ public:
     void krzyzowanie();
     void transpozycja();
     void nowaPopulcacja();
-    void ocenaOsobnikow();
     void selekcja();
 
     Osobnik* osobnik(int os);
@@ -21,7 +20,7 @@ public:
     void update()
     {
        // std::cout<<"Update "<<std::endl;
-        //ocenaOsobnikow();
+
         selekcja();
         krzyzowanie();
         mutacja();

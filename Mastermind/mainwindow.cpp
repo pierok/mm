@@ -23,110 +23,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     populacja= new Populacja(400);
     algorytm= new AlgorytmGenetyczny(populacja);
-
-    std::cout<<"test"<<std::endl;
-
-    int tmp[8];
-    int result[8];
-
-    int patern[8];
-    patern[0]=1;
-    patern[1]=5;
-    patern[2]=5;
-    patern[3]=5;
-    patern[4]=2;
-    patern[5]=7;
-    patern[6]=2;
-    patern[7]=8;
-
-    int osobnik[8];
-    osobnik[0]=7;
-    osobnik[1]=3;
-    osobnik[2]=7;
-    osobnik[3]=9;
-    osobnik[4]=5;
-    osobnik[5]=8;
-    osobnik[6]=5;
-    osobnik[7]=6;
-
-    for(int i=0; i<8; ++i)
-    {
-        result[i]=0;
-        tmp[i]=0;
-    }
-
-    for(int i=0; i<8; ++i)
-    {
-
-        if(patern[i]==osobnik[i])
-        {
-            result[i]=1;
-            tmp[i]=1;
-        }
-    }
-
-    for(int i=0; i<8; ++i)
-    {
-        bool pos=true;
-        int count=0;
-        for(int j=0; j<8; ++j)
-        {
-            if(patern[j]==osobnik[i])
-            {
-                if(tmp[j]==1)
-                    pos=false;
-                tmp[j]=1;
-                ++count;
-            }
-        }
-
-        if(pos&&osobnik[i]>0&&count>0)
-        {
-            result[i]=2;
-           // tmp[i]=1;
-        }
-
-    }
-
-    int black=0;
-    int white=0;
-    for(int i=0; i<8; ++i)
-    {
-        if(result[i]==1)
-        {
-            ++black;
-        }else if(result[i]==2)
-        {
-            ++white;
-        }
-    }
-
-    std::cout<<std::endl;
-
-    for(int i=0; i<8; ++i)
-    {
-        std::cout<<patern[i]<<" ";
-    }
-    std::cout<<std::endl;
-
-    for(int i=0; i<8; ++i)
-    {
-        std::cout<<osobnik[i]<<" ";
-    }
-    std::cout<<std::endl;
-
-    for(int i=0; i<8; ++i)
-    {
-        std::cout<<result[i]<<" ";
-    }
-    std::cout<<std::endl;
-
-    std::cout<<"b "<<black<<" w "<<white<<std::endl;
-
-    std::cout<<"end test"<<std::endl;
-
-   // exit(0);
-
 }
 
 void MainWindow::MainClockTick()
@@ -134,7 +30,7 @@ void MainWindow::MainClockTick()
     if(start==true)
     {
         int os=qrand()%populacja->getRozmiar();
-       // std::cout<<"Osobnik: "<<os<<std::endl;
+        // std::cout<<"Osobnik: "<<os<<std::endl;
         osobnik=algorytm->osobnik(os);
 
         for(int i=0; i<8; ++i)
@@ -154,10 +50,11 @@ void MainWindow::MainClockTick()
 
         algorytm->update();
 
-        if(algorytm->pokolenie>=1)
+        if(algorytm->pokolenie>=50)
         {
-            start=false;
-            algorytm->pokolenie=0;
+            algorytm->nowaPopulcacja();
+            //start=false;
+            //algorytm->pokolenie=0;
         }
     }
     plansza->update();
@@ -195,10 +92,20 @@ void MainWindow::oceneOsobnikow(Osobnik *osobnik, int os)
     int tmp[8];
     int result[8];
 
-    foreach(Memento* m, previousResults)
+
+    //  foreach(Osobnik* o, *populacja->populacja)
+    // {
+    for(int k=0; k<populacja->getRozmiar();++k)
     {
-        foreach(Osobnik* o, *populacja->populacja)
+        if(k==os)
         {
+            continue;
+        }
+        Osobnik* o=populacja->populacja->at(k);
+        o->przystosowanie=0;
+        foreach(Memento* m, previousResults)
+        {
+
             for(int i=0; i<8; ++i)
             {
                 result[i]=0;
@@ -232,7 +139,7 @@ void MainWindow::oceneOsobnikow(Osobnik *osobnik, int os)
                 if(pos&&o->genom[i]>0&&count>0)
                 {
                     result[i]=2;
-                   // tmp[i]=1;
+                    // tmp[i]=1;
                 }
 
             }
@@ -249,32 +156,67 @@ void MainWindow::oceneOsobnikow(Osobnik *osobnik, int os)
                     ++white;
                 }
             }
-            std::cout<<"M b: "<<m->getBlack()<<" M w: "<<m->getWhite()<<"  b: "<<black<<" w: "<<white<<std::endl;
+            //std::cout<<"M b: "<<m->getBlack()<<" M w: "<<m->getWhite()<<"  b: "<<black<<" w: "<<white<<std::endl;
 
-            int tmpb=std::abs(m->getBlack()-black);
+            //int tmpb=std::abs(m->getBlack()-black);
 
-            std::cout<<"Odleglosc: "<<tmpb<<std::endl;
+            int odleglos=0;
+
+            while(black!=m->getBlack()||white!=m->getWhite())
+            {
+                if(black<m->getBlack())
+                {
+                    ++black;
+                    if(white>m->getWhite())
+                    {
+                        --white;
+                    }
+
+                    ++odleglos;
+
+                }else if(black>m->getBlack())
+                {
+                    --black;
+                    if(white<m->getWhite())
+                    {
+                        ++white;
+                    }
+                    ++odleglos;
+                }else if(black==m->getBlack())
+                {
+                    if(white<m->getWhite())
+                    {
+                        ++white;
+                    }else if(white>m->getWhite())
+                    {
+                        --white;
+                    }
+                    ++odleglos;
+                }
+            }
+
+            o->przystosowanie-=odleglos;
+
+            /* std::cout<<"Odleglosc: "<<odleglos<<std::endl;
 
             for(int i=0; i<8; ++i)
             {
                 std::cout<<m->getPresented(i)<<" ";
             }
             std::cout<<"\nosobnik: "<<std::endl;
-
-            for(int i=0; i<8; ++i)
+            */
+            /*  for(int i=0; i<8; ++i)
             {
                 std::cout<<o->genom[i]<<" ";
             }
-            std::cout<<std::endl;
+            std::cout<<std::endl;*/
+
+
 
         }
     }
     std::cout<<"ok "<<previousResults.size()<<" "<<populacja->getRozmiar()<<std::endl;
 }
-
-
-
-
 
 MainWindow::~MainWindow()
 {
