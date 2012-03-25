@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     algorytmgenetyczny.cpp \
     osobnik.cpp \
     populacja.cpp \
-    memento.cpp
+    memento.cpp \
+    dialog.cpp
 
 HEADERS  += mainwindow.h \
     plansza.h \
@@ -27,9 +28,22 @@ HEADERS  += mainwindow.h \
     algorytmgenetyczny.h \
     osobnik.h \
     populacja.h \
-    memento.h
+    memento.h \
+    dialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    dialog.ui
+
+
+
+
+
+
+
+
+
+
+
 
 
 

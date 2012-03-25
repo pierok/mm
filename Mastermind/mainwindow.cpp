@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "dialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -13,12 +14,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&maintimer, SIGNAL(timeout()), this, SLOT(MainClockTick()));
 
     plansza = new Plansza();
-    plansza->setSceneRect(0, 0,400, 400);
-    plansza->setItemIndexMethod(QGraphicsScene::NoIndex);
+    //plansza->setSceneRect(0, 0,400, 400);
+    //plansza->setItemIndexMethod(QGraphicsScene::BspTreeIndex);
     ui->plansza->setScene(plansza);
     ui->plansza->show();
 
-    maintimer.start(30);
+    maintimer.start(1);
     start=false;
 
     populacja= new Populacja(400);
@@ -225,6 +226,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_acceptButton_clicked()
 {
+
     plansza->frame->setPos(plansza->frame->scenePos().x(),plansza->frame->scenePos().y()+55);
 
     for(int i=0; i<8; ++i)
@@ -238,27 +240,19 @@ void MainWindow::on_acceptButton_clicked()
         plansza->frame->memory[i]->setPos(plansza->frame->memory[i]->scenePos().x(),plansza->frame->memory[i]->scenePos().y()+55);
     }
 
+
     if(plansza->checkPatern())
     {
         start=false;
-        QString code;
-        std::cout<<"Kod: ";
+        Dialog msgBox;
         for(int i=0; i<8; ++i)
         {
-            std::cout<<plansza->result[i]<<" ";
-            code.setNum(plansza->frame->memory[i]->getColor());
+            msgBox.plansza->frame->memory[i]->setColor(plansza->frame->memory[i]->getColor());
         }
-        std::cout<<std::endl;
-        QMessageBox msgBox;
-        msgBox.setText(code);
-        msgBox.setFixedSize(300,300);
         msgBox.exec();
     }
 
-    for(int i=0; i<8; ++i)
-    {
-        // std::cout<<plansza->result[i]<<" ";
-    }
+
     plansza->frame->clearMemory();
     plansza->frame->level++;
 
