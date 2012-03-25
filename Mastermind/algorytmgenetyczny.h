@@ -26,7 +26,10 @@ public:
         mutacja();
 
         ++pokolenie;
-        nowaPopulcacja();
+        if(pokolenie>=50)
+        {
+            nowaPopulcacja();
+        }
     }
 
     int pokolenie;

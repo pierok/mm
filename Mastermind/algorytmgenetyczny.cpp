@@ -109,10 +109,7 @@ void AlgorytmGenetyczny::nowaPopulcacja()
 {
 
     // std::cout<<"pokolenie "<<pokolenie<<std::endl;
-    if(pokolenie>=50)
-    {
-
-        foreach(Osobnik* o, *populacja->populacja)
+          foreach(Osobnik* o, *populacja->populacja)
         {
             int g1=qrand()%8+1;
             int g2=qrand()%8+1;
@@ -128,7 +125,6 @@ void AlgorytmGenetyczny::nowaPopulcacja()
 
         std::cout<<"stwurz nowa populacje"<<std::endl;
         pokolenie=0;
-    }
 }
 
 

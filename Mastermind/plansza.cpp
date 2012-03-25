@@ -15,8 +15,6 @@ Plansza::Plansza()
 
 void Plansza::clearP()
 {
-
-    std::cout<<"aaaa "<<items().size()<<std::endl;
     foreach(QGraphicsItem *item, items())
     {
         //SelectFrame *object = dynamic_cast<SelectFrame*> (item);
@@ -27,8 +25,6 @@ void Plansza::clearP()
             removeItem(object);
         }
     }
-
-       std::cout<<"bbb "<<items().size()<<std::endl;
 }
 
 void Plansza::update()

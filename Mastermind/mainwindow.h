@@ -35,6 +35,7 @@ private slots:
     void MainClockTick();
     void on_acceptButton_clicked();
     void on_newGameButton_clicked();
+    void on_wzorButton_clicked();
 };
 
 #endif // MAINWINDOW_H

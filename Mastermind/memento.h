@@ -5,6 +5,7 @@ class Memento
 {
 public:
     Memento();
+    ~Memento(){}
 
     inline void setPresented(int i, int w)
     {

@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     maintimer.start(1);
     start=false;
 
-    populacja= new Populacja(400);
+    populacja= new Populacja(1000);
     algorytm= new AlgorytmGenetyczny(populacja);
 }
 
@@ -216,7 +216,7 @@ void MainWindow::oceneOsobnikow(Osobnik *osobnik, int os)
 
         }
     }
-    std::cout<<"ok "<<previousResults.size()<<" "<<populacja->getRozmiar()<<std::endl;
+   // std::cout<<"ok "<<previousResults.size()<<" "<<populacja->getRozmiar()<<std::endl;
 }
 
 MainWindow::~MainWindow()
@@ -245,6 +245,7 @@ void MainWindow::on_acceptButton_clicked()
     {
         start=false;
         Dialog msgBox;
+        std::cout<<"liczba pokolen "<<algorytm->pokolenie<<std::endl;
         for(int i=0; i<8; ++i)
         {
             msgBox.plansza->frame->memory[i]->setColor(plansza->frame->memory[i]->getColor());
@@ -252,7 +253,12 @@ void MainWindow::on_acceptButton_clicked()
         msgBox.exec();
     }
 
-
+    std::cout<<"Podpowiedz: ";
+    for(int i=0; i<8; ++i)
+    {
+        std::cout<<plansza->result[i]<<" ";
+    }
+    std::cout<<std::endl;
     plansza->frame->clearMemory();
     plansza->frame->level++;
 
@@ -271,6 +277,27 @@ void MainWindow::on_newGameButton_clicked()
     plansza->frame->clearMemory();
     plansza->clearP();
 
+    algorytm->nowaPopulcacja();
+    algorytm->pokolenie=0;
+    previousResults.clear();
+    //std::cout<<previousResults.size()<<std::endl;
     this->repaint();
     ui->plansza->repaint();
+}
+
+void MainWindow::on_wzorButton_clicked()
+{
+    Dialog msgBox;
+    msgBox.setWindowTitle("Wzór");
+   /* for(int i=0; i<8; ++i)
+    {
+        msgBox.plansza->frame->memory[i]->setColor(plansza->frame->memory[i]->getColor());
+    }*/
+    msgBox.exec();
+
+    for(int i=0;i<8;++i)
+    {
+        plansza->patern[i]=msgBox.getPatern(i);
+    }
+
 }
