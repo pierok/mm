@@ -76,19 +76,6 @@ void AlgorytmGenetyczny::krzyzowanie()
 
 }
 
-void permutacja(Osobnik* o/*int *Value*/, int N, int k)
-{/*
- static int level = -1;
- level = level+1; o->genom[k] = level;
- if (level == N)
-   ;std::cout<<(o->genom, N);
- else
-   for (int i = 0; i < N; i++)
-     if (o->genom [i] == 0)
-        permutacja(o->genom, N, i);
- level = level-1; o->genom[k] = 0;*/
-}
-
 
 void AlgorytmGenetyczny::transpozycja()
 {
@@ -98,7 +85,17 @@ void AlgorytmGenetyczny::transpozycja()
 
         if(m<=40)
         {
+            int ilosZmian=qrand()%8;
 
+            for(int i=0; i<ilosZmian; ++i)
+            {
+                int p1=qrand()%8;
+                int p2=qrand()%8;
+
+                int tmp=o->genom[p1];
+                o->genom[p1]=o->genom[p2];
+                o->genom[p2]=tmp;
+            }
         }
 
     }
@@ -124,7 +121,7 @@ void AlgorytmGenetyczny::nowaPopulcacja()
         }
 
         std::cout<<"stwurz nowa populacje"<<std::endl;
-        pokolenie=0;
+       // pokolenie=0;
 }
 
 

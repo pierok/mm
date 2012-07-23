@@ -19,16 +19,15 @@ public:
 
     void update()
     {
-       // std::cout<<"Update "<<std::endl;
-
         selekcja();
         krzyzowanie();
         mutacja();
+        transpozycja();
 
         ++pokolenie;
         if(pokolenie>=50)
         {
-            nowaPopulcacja();
+           // nowaPopulcacja();
         }
     }
 

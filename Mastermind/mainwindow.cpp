@@ -32,28 +32,22 @@ void MainWindow::MainClockTick()
     {
         int os=qrand()%populacja->getRozmiar();
         // std::cout<<"Osobnik: "<<os<<std::endl;
-        osobnik=algorytm->osobnik(os);
+        osobnik=algorytm->osobnik(0);
 
         for(int i=0; i<8; ++i)
         {
             plansza->frame->memory[i]->setColor(osobnik->genom[i]);
         }
 
-        /*std::cout<<"Osobnik :";
-        for(int i=0; i<8; ++i)
-        {
-            std::cout<< plansza->frame->memory[i]->getColor()<<" ";
-        }std::cout<<std::endl;*/
-
         on_acceptButton_clicked();
 
-        oceneOsobnikow(osobnik,os);
+        oceneOsobnikow(osobnik,0);
 
         algorytm->update();
 
         if(algorytm->pokolenie>=50)
         {
-            algorytm->nowaPopulcacja();
+           // algorytm->nowaPopulcacja();
             //start=false;
             //algorytm->pokolenie=0;
         }
