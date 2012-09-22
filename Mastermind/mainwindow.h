@@ -20,11 +20,13 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     void oceneOsobnikow(Osobnik *osobnik, int os);
     ~MainWindow();
+    int liczebnosc;
 
 private:
     Ui::MainWindow *ui;
     QTimer maintimer;
     Plansza *plansza;
+    Plansza* plansza2;
     Populacja* populacja;
     AlgorytmGenetyczny *algorytm;
     Osobnik* osobnik;

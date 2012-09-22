@@ -10,6 +10,7 @@ class Plansza: public QGraphicsScene
 {
 public:
     Plansza();
+    ~Plansza();
     void update();
     SelectFrame *frame;
     bool checkPatern();

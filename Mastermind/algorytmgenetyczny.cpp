@@ -1,7 +1,8 @@
 #include "algorytmgenetyczny.h"
 //#include <algorithm>
 #include <qalgorithms.h>
-
+#include <QFile>
+#include <QTextStream>
 AlgorytmGenetyczny::AlgorytmGenetyczny(Populacja *pop)
 {
     populacja=pop;
@@ -134,4 +135,27 @@ void AlgorytmGenetyczny::selekcja()
 {
     //  std::cout<<"Selekcja "<<std::endl;
     qSort(populacja->populacja->begin(),populacja->populacja->end(),osobnikSelect);
+
+
+
+    std::cout<<"write to file"<<std::endl;
+    QFile file("out.txt");
+    if (!file.open(QIODevice::Append| QIODevice::Text))
+        return;
+
+    int srednia=0;
+
+    foreach(Osobnik* os, *populacja->populacja)
+    {
+        srednia+=os->przystosowanie;
+    }
+
+    srednia/=populacja->populacja->size();
+
+    QTextStream out(&file);
+    out <<pokolenie<< " Najlepszy: "<<populacja->populacja->at(0)->przystosowanie<<" Najgorszy: "
+       <<populacja->populacja->at(populacja->populacja->size()-1)->przystosowanie<<" Srednia: "<<srednia<<"\n";
+
+    file.close();
+
 }

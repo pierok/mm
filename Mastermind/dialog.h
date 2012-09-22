@@ -21,14 +21,18 @@ public:
       return plansza->frame->memory[i]->getColor();
     }
 
+    void hideInfo();
+    void setInfo(int i);
+
+
     ~Dialog();
 
 private slots:
     void on_pushButton_clicked();
 
-private:
-    Ui::Dialog *ui;
 
+private:
+      Ui::Dialog *ui;
 };
 
 #endif // DIALOG_H

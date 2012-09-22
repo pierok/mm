@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>544</width>
-    <height>498</height>
+    <width>542</width>
+    <height>606</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,8 +21,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>421</width>
+      <y>120</y>
+      <width>431</width>
       <height>421</height>
      </rect>
     </property>
@@ -71,7 +71,33 @@
      </rect>
     </property>
     <property name="text">
-     <string>Wzor</string>
+     <string>Wzór</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="ukrytyWzor">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>431</width>
+      <height>71</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ukryta kombinacja:</string>
     </property>
    </widget>
   </widget>
@@ -80,7 +106,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>544</width>
+     <width>542</width>
      <height>21</height>
     </rect>
    </property>

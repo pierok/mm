@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <QMessageBox>
+#include <QGraphicsTextItem>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "dialog.h"
@@ -19,10 +20,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->plansza->setScene(plansza);
     ui->plansza->show();
 
+
+    plansza2 = new Plansza();
+    //plansza->setSceneRect(100, 0, 100, 400);
+    //plansza->setItemIndexMethod(QGraphicsScene::NoIndex);
+    ui->ukrytyWzor->setScene(plansza2);
+    ui->ukrytyWzor->show();
+
+    ui->acceptButton->hide();
+
     maintimer.start(1);
     start=false;
 
-    populacja= new Populacja(1000);
+    liczebnosc=4000;
+
+    populacja= new Populacja(liczebnosc);
     algorytm= new AlgorytmGenetyczny(populacja);
 }
 
@@ -30,7 +42,7 @@ void MainWindow::MainClockTick()
 {
     if(start==true)
     {
-        int os=qrand()%populacja->getRozmiar();
+        //int os=qrand()%populacja->getRozmiar();
         // std::cout<<"Osobnik: "<<os<<std::endl;
         osobnik=algorytm->osobnik(0);
 
@@ -228,8 +240,16 @@ void MainWindow::on_acceptButton_clicked()
         StaticElipse *tmp=new StaticElipse(0,0,i);
         tmp->setColor(plansza->frame->memory[i]->getColor());
 
+        QString s="";
+        s.setNum(algorytm->pokolenie);
+        QGraphicsTextItem *text=new QGraphicsTextItem(s);
+        plansza->addItem(text);
+
+
         plansza->addItem(tmp);
         tmp->setPos(plansza->frame->memory[i]->scenePos().x(),plansza->frame->memory[i]->scenePos().y());
+        text->setPos(tmp->scenePos().x()-5,tmp->scenePos().y());
+
 
         plansza->frame->memory[i]->setPos(plansza->frame->memory[i]->scenePos().x(),plansza->frame->memory[i]->scenePos().y()+55);
     }
@@ -239,7 +259,22 @@ void MainWindow::on_acceptButton_clicked()
     {
         start=false;
         Dialog msgBox;
+
         std::cout<<"liczba pokolen "<<algorytm->pokolenie<<std::endl;
+
+        msgBox.setInfo(algorytm->pokolenie);
+
+        std::cout<<"write to file"<<std::endl;
+        QFile file("statystyki.txt");
+        if (!file.open(QIODevice::Append| QIODevice::Text))
+            return;
+
+          QTextStream out(&file);
+
+         out<<liczebnosc<<" "<<algorytm->pokolenie<<"\n";
+
+         file.close();
+
         for(int i=0; i<8; ++i)
         {
             msgBox.plansza->frame->memory[i]->setColor(plansza->frame->memory[i]->getColor());
@@ -283,6 +318,7 @@ void MainWindow::on_wzorButton_clicked()
 {
     Dialog msgBox;
     msgBox.setWindowTitle("Wzór");
+    msgBox.hideInfo();
    /* for(int i=0; i<8; ++i)
     {
         msgBox.plansza->frame->memory[i]->setColor(plansza->frame->memory[i]->getColor());
@@ -292,6 +328,8 @@ void MainWindow::on_wzorButton_clicked()
     for(int i=0;i<8;++i)
     {
         plansza->patern[i]=msgBox.getPatern(i);
+        plansza2->frame->memory[i]->setColor(msgBox.getPatern(i));
+
     }
 
 }

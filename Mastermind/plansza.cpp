@@ -27,6 +27,16 @@ void Plansza::clearP()
     }
 }
 
+
+Plansza::~Plansza()
+{
+    foreach(QGraphicsItem *item, items())
+    {
+        removeItem(item);
+    }
+}
+
+
 void Plansza::update()
 {
     foreach(QGraphicsItem *item, items())

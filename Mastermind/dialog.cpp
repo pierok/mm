@@ -15,9 +15,28 @@ Dialog::Dialog(QWidget *parent) :
 
 }
 
+
+void Dialog::hideInfo()
+{
+    ui->label->hide();
+    ui->label_2->hide();
+    ui->labelLiczbaR->hide();
+}
+
+void Dialog::setInfo(int i)
+{
+
+    QString s="";
+            s.setNum(i);
+    ui->labelLiczbaR->setText(s);
+}
+
+
+
 Dialog::~Dialog()
 {
     delete ui;
+    delete plansza;
 }
 
 void Dialog::on_pushButton_clicked()
